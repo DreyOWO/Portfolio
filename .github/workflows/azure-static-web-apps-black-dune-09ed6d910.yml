@@ -2,13 +2,14 @@ name: Azure Static Web Apps CI/CD
 
 on:
   push:
-
-  workflow_dispatch:
-
+    branches:
+      - main
+      - Dev
+      - TestENV
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - Dev
+      - main
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
@@ -32,6 +33,7 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "." # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+          production_branch: "main"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
